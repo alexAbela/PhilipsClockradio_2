@@ -15,14 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainUI extends AppCompatActivity implements OnTouchListener {
-    public TextView timeTextView, statusTextview;
+    public TextView timeTextView, statusTextview, statusTextViewAlarm;
     private Button btn_hour, btn_min, btn_preset, btn_sleep, btn_al1, btn_al2, btn_snooze;
     private ImageButton btn_power;
     private ImageView circle1, circle2, circle3, circle4, circle5;
 
     private static ContextClockradio logik;
 
-    private boolean displayLed1, displayLed2, displayLed3, displayLed4, displayLed5, displayBlink, musicPlaying;
+    private boolean displayLed1, displayLed2, displayLed3, displayLed4, displayLed5, displayBlink, musicPlaying, alarmPlaying;
     private boolean longclick = false;
     private View currentbtn;
 
@@ -51,6 +51,7 @@ public class MainUI extends AppCompatActivity implements OnTouchListener {
         btn_snooze = (Button) findViewById(R.id.btn_snooze);
         timeTextView = (TextView) findViewById(R.id.timeTextView);
         statusTextview = (TextView) findViewById(R.id.statusText);
+        statusTextViewAlarm = (TextView) findViewById(R.id.statusTextAlarm);
         circle1 = (ImageView) findViewById(R.id.circle1);
         circle2 = (ImageView) findViewById(R.id.circle2);
         circle3 = (ImageView) findViewById(R.id.circle3);
@@ -86,6 +87,7 @@ public class MainUI extends AppCompatActivity implements OnTouchListener {
             displayLed5 = bools[4];
             displayBlink = bools[5];
             musicPlaying = bools[6];
+            alarmPlaying = bools[7];
 
         } catch (NullPointerException e){}
 
@@ -146,7 +148,7 @@ public class MainUI extends AppCompatActivity implements OnTouchListener {
     // Denne metode gemmer alt UI state, til hvis der f.eks. laves en skærmrotation
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
-        boolean[] bools = new boolean[] {displayLed1, displayLed2, displayLed3, displayLed4, displayLed5, displayBlink, musicPlaying};
+        boolean[] bools = new boolean[] {displayLed1, displayLed2, displayLed3, displayLed4, displayLed5, displayBlink, musicPlaying, alarmPlaying};
         savedInstanceState.putString("displayText", logik.getTime().toString().substring(10,16));
         //savedInstanceState.putString("displayText", timeTextView.getText().toString());
         savedInstanceState.putBooleanArray("bools", bools);
@@ -237,9 +239,21 @@ public class MainUI extends AppCompatActivity implements OnTouchListener {
         } else {
             statusTextview.setText("Radio: OFF");
         }
+    }
+
+    public void toggleAlarmPlaying(String isOn){
+        alarmPlaying = !alarmPlaying;
+        if(isOn.equalsIgnoreCase("ON")){
+            statusTextViewAlarm.setText("Alarm: ON");
+        }else {
+            statusTextViewAlarm.setText("Alarm: OFF");
+        }
 
     }
 
+    public boolean isMusicPlaying() {
+        return musicPlaying;
+    }
 
     // Denne metode tjekker om en knap er trykket på, eller om den er holdt nede i over 2 sekunder
     // NB: Skal ikke kaldes udefra!

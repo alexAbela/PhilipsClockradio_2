@@ -21,14 +21,52 @@ public class StateStandby extends StateAdapter {
         @Override
         public void run() {
             try {
+                //alarmLights();
                 long currentTime = mTime.getTime();
                 mTime.setTime(currentTime + 60000);
                 mContext.setTime(mTime);
             } finally {
-                mHandler.postDelayed(mSetTime, 60000);
+                mHandler.postDelayed(mSetTime, 1000);
+                mHandler.postDelayed(mCheckForAlarm,1000);
             }
         }
     };
+
+    Runnable mCheckForAlarm = new Runnable() {
+        @Override
+        public void run() {
+            for (int i = 1; i < 2; i++) {
+                if (mContext.getAlarm(i).isActive()) {
+                    if (mContext.getAlarm(i).getAlarmTime() == mTime.getTime()) {
+                        if (ui.isMusicPlaying() || mContext.getAlarm(i).isSoundIsAlarm()) {
+                            ui.toggleAlarmPlaying("ON");
+                            ui.toggleRadioPlaying("OFF");
+                        } else if (!mContext.getAlarm(i).isSoundIsAlarm()) {
+                            ui.toggleRadioPlaying("ON");
+                        } else {
+                            ui.toggleAlarmPlaying("ON");
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    public void alarmLights(){
+        for(int i = 1; i < 2; i++) {
+            if (mContext.getAlarm(i).isActive()) {
+                if (mContext.getAlarm(i).isSoundIsAlarm()) {
+                    ui.turnOnLED(i*2);
+                } else {
+                    ui.turnOnLED(i*2+1);
+                }
+            } else {
+                ui.turnOffLED(i*2);
+                ui.turnOffLED(i*2+1);
+            }
+        }
+    }
+
 
     void startClock() {
         mSetTime.run();
@@ -45,6 +83,7 @@ public class StateStandby extends StateAdapter {
         //Lokal context oprettet for at Runnable kan få adgang
         mContext = context;
         ui.toggleRadioPlaying("OFF");
+        ui.toggleAlarmPlaying("OFF");
         context.updateDisplayTime();
         if(!context.isClockRunning){
             startClock();
