@@ -6,7 +6,7 @@ import java.util.Date;
 //
 public class ContextClockradio {
     private State currentState;
-    private Date mTime;
+    private Date mTime, alarm1, alarm2;
     private String mDisplayText;
     private radioFrequency mradioFrequency, userPreset1, userPreset2, userPreset3, userPreset4, userPreset5;
     public boolean isClockRunning = false;
@@ -25,6 +25,7 @@ public class ContextClockradio {
 
         mradioFrequency = new radioFrequency();
         initiatePresets();
+        initiateAlarms();
         //Når app'en starter, så går vi ind i Standby State
         currentState = new StateStandby(mTime);
         currentState.onEnterState(this);
@@ -44,6 +45,21 @@ public class ContextClockradio {
         if(currentState.getClass().getSimpleName().equals("StateStandby")){
             updateDisplayTime();
         }
+    }
+
+    public Date getAlarm(int number) {
+        if (number == 1) {
+            return alarm1;
+        } else {
+            return alarm2;
+        }
+    }
+
+    public void initiateAlarms(){
+        Calendar date = Calendar.getInstance();
+        date.set(2019, 1, 1, 00, 00);
+        alarm1 = date.getTime();
+        alarm2 = date.getTime();
     }
 
     public radioFrequency getUserPresets(int preset) {
