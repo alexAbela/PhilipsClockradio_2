@@ -34,7 +34,7 @@ public class StateStandby extends StateAdapter {
     Runnable mCheckForAlarm = new Runnable() {
         @Override
         public void run() {
-            for (int i = 1; i < 2; i++) {
+            for (int i = 1; i < 3; i++) {
                 if (mContext.getAlarm(i).isActive()) {
                     if (mContext.getAlarm(i).getAlarmTime() == mTime.getTime()) {
                     alarmRingingState(mContext,i);
@@ -45,7 +45,17 @@ public class StateStandby extends StateAdapter {
     };
 
     public void alarmRingingState(ContextClockradio context, int alarmNumber){
-        context.setState(new StateAlarmRinging(alarmNumber));
+        context.setState(new StateAlarmRinging(alarmNumber,context.getCurrentState()));
+    }
+
+    public void alarmLights(ContextClockradio context){
+        for(int i = 1; i < 3; i++){
+            if(context.getAlarm(i).isActive() && context.getAlarm(i).isSoundIsAlarm()){
+                ui.turnOnLED(i*i+1);
+            } else if (context.getAlarm(i).isActive() && !context.getAlarm(i).isSoundIsAlarm()) {
+                ui.turnOnLED(i*i);
+            }
+        }
     }
 
 
@@ -63,6 +73,7 @@ public class StateStandby extends StateAdapter {
     public void onEnterState(ContextClockradio context) {
         //Lokal context oprettet for at Runnable kan få adgang
         mContext = context;
+        alarmLights(context);
         ui.toggleRadioPlaying("OFF");
         ui.toggleAlarmPlaying("OFF");
         context.updateDisplayTime();
@@ -84,7 +95,7 @@ public class StateStandby extends StateAdapter {
 
     @Override
     public void onClick_Sleep(ContextClockradio context) {
-        context.setState(new StateSleep());
+        context.setState(new StateSleepOn());
     }
 
     @Override
@@ -93,11 +104,12 @@ public class StateStandby extends StateAdapter {
 
     @Override
     public void onLongClick_AL1(ContextClockradio context) {
-        context.setState(new StateSetAlarm1());
+        //context.setState(new StateSetAlarm1());
+        context.setState(new StateSetAlarm(1,context.getCurrentState()));
     }
 
     @Override
     public void onLongClick_AL2(ContextClockradio context) {
-        context.setState(new StateSetAlarm2());
+        context.setState(new StateSetAlarm(2,context.getCurrentState()));
     }
 }

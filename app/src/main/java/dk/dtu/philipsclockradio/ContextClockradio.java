@@ -102,6 +102,9 @@ public class ContextClockradio {
         ui.setDisplayText(mDisplayText);
     }
 
+    public State getCurrentState() {
+        return currentState;
+    }
 
     public Date getTime(){
         return mTime;
