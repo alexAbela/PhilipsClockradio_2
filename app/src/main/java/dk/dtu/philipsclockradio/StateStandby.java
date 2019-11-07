@@ -21,7 +21,6 @@ public class StateStandby extends StateAdapter {
         @Override
         public void run() {
             try {
-                //alarmLights();
                 long currentTime = mTime.getTime();
                 mTime.setTime(currentTime + 60000);
                 mContext.setTime(mTime);
@@ -38,33 +37,15 @@ public class StateStandby extends StateAdapter {
             for (int i = 1; i < 2; i++) {
                 if (mContext.getAlarm(i).isActive()) {
                     if (mContext.getAlarm(i).getAlarmTime() == mTime.getTime()) {
-                        if (ui.isMusicPlaying() || mContext.getAlarm(i).isSoundIsAlarm()) {
-                            ui.toggleAlarmPlaying("ON");
-                            ui.toggleRadioPlaying("OFF");
-                        } else if (!mContext.getAlarm(i).isSoundIsAlarm()) {
-                            ui.toggleRadioPlaying("ON");
-                        } else {
-                            ui.toggleAlarmPlaying("ON");
-                        }
+                    alarmRingingState(mContext,i);
                     }
                 }
             }
         }
     };
 
-    public void alarmLights(){
-        for(int i = 1; i < 2; i++) {
-            if (mContext.getAlarm(i).isActive()) {
-                if (mContext.getAlarm(i).isSoundIsAlarm()) {
-                    ui.turnOnLED(i*2);
-                } else {
-                    ui.turnOnLED(i*2+1);
-                }
-            } else {
-                ui.turnOffLED(i*2);
-                ui.turnOffLED(i*2+1);
-            }
-        }
+    public void alarmRingingState(ContextClockradio context, int alarmNumber){
+        context.setState(new StateAlarmRinging(alarmNumber));
     }
 
 
@@ -104,6 +85,10 @@ public class StateStandby extends StateAdapter {
     @Override
     public void onClick_Sleep(ContextClockradio context) {
         context.setState(new StateSleep());
+    }
+
+    @Override
+    public void onClick_AL1(ContextClockradio context) {
     }
 
     @Override

@@ -1,5 +1,7 @@
 package dk.dtu.philipsclockradio;
 
+import android.util.Log;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -99,6 +101,7 @@ public class ContextClockradio {
         mDisplayText = mTime.toString().substring(11,16);
         ui.setDisplayText(mDisplayText);
     }
+
 
     public Date getTime(){
         return mTime;
