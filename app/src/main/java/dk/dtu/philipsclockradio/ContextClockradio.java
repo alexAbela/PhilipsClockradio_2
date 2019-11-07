@@ -6,7 +6,8 @@ import java.util.Date;
 //
 public class ContextClockradio {
     private State currentState;
-    private Date mTime, alarm1, alarm2;
+    private Date mTime;
+    private Alarm alarm1, alarm2;
     private String mDisplayText;
     private radioFrequency mradioFrequency, userPreset1, userPreset2, userPreset3, userPreset4, userPreset5;
     public boolean isClockRunning = false;
@@ -47,7 +48,7 @@ public class ContextClockradio {
         }
     }
 
-    public Date getAlarm(int number) {
+    public Alarm getAlarm(int number) {
         if (number == 1) {
             return alarm1;
         } else {
@@ -58,8 +59,8 @@ public class ContextClockradio {
     public void initiateAlarms(){
         Calendar date = Calendar.getInstance();
         date.set(2019, 1, 1, 00, 00);
-        alarm1 = date.getTime();
-        alarm2 = date.getTime();
+        alarm1 = new Alarm(date.getTime(),true);
+        alarm2 = new Alarm(date.getTime(),true);
     }
 
     public radioFrequency getUserPresets(int preset) {
