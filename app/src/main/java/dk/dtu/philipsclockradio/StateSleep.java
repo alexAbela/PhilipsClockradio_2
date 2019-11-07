@@ -2,6 +2,8 @@ package dk.dtu.philipsclockradio;
 
 import android.os.Handler;
 
+import static dk.dtu.philipsclockradio.ContextClockradio.ui;
+
 public class StateSleep extends StateAdapter {
     int sleepTime;
     int click;
@@ -12,10 +14,10 @@ public class StateSleep extends StateAdapter {
     @Override
     public void onEnterState(ContextClockradio context) {
         mContext = context;
-        context.ui.turnOnLED(3);
+        ui.turnOnLED(3);
         sleepTime = 120;
         click = 1;
-        context.ui.setDisplayText(String.valueOf(sleepTime));
+        ui.setDisplayText(String.valueOf(sleepTime));
         handler.postDelayed(backToStandby,5000);
         handler.postDelayed(sleepTimer,12000);
 
@@ -31,7 +33,7 @@ public class StateSleep extends StateAdapter {
     Runnable sleepTimer = new Runnable() {
         @Override
         public void run() {
-            mContext.ui.turnOffLED(3);
+            ui.turnOffLED(3);
         }
     };
 
@@ -69,13 +71,13 @@ public class StateSleep extends StateAdapter {
             case 5:
                 handler.removeCallbacks(backToStandby);
                 handler.removeCallbacks(sleepTimer);
-                context.ui.turnOffLED(3);
+                ui.turnOffLED(3);
                 handler.post(backToStandby);
                 break;
             default:
                 break;
         }
-        context.ui.setDisplayText(String.valueOf(sleepTime));
+        ui.setDisplayText(String.valueOf(sleepTime));
         click++;
     }
 }

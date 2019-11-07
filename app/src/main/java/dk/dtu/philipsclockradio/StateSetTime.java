@@ -2,6 +2,8 @@ package dk.dtu.philipsclockradio;
 
 import java.util.Date;
 
+import static dk.dtu.philipsclockradio.ContextClockradio.ui;
+
 
 public class StateSetTime extends StateAdapter {
     Date mTime;
@@ -11,13 +13,13 @@ public class StateSetTime extends StateAdapter {
     @Override
     public void onEnterState(ContextClockradio context) {
         mTime = context.getTime();
-        context.ui.turnOnTextBlink();
+        ui.turnOnTextBlink();
         context.updateDisplayTime();
     }
 
     @Override
     public void onExitState(ContextClockradio context) {
-        context.ui.turnOffTextBlink();
+        ui.turnOffTextBlink();
     }
 
     @Override

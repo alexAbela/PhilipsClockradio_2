@@ -1,5 +1,7 @@
 package dk.dtu.philipsclockradio;
 
+import static dk.dtu.philipsclockradio.ContextClockradio.ui;
+
 public class StateSetPresets extends StateAdapter {
 
     int LEDnumber;
@@ -7,12 +9,12 @@ public class StateSetPresets extends StateAdapter {
     @Override
     public void onEnterState(ContextClockradio context) {
         LEDnumber = 1;
-        context.ui.turnOnLED(LEDnumber);
+        ui.turnOnLED(LEDnumber);
     }
 
     @Override
     public void onExitState(ContextClockradio context) {
-        context.ui.turnOffLED(LEDnumber);
+        ui.turnOffLED(LEDnumber);
     }
 
     @Override
@@ -21,11 +23,11 @@ public class StateSetPresets extends StateAdapter {
         if(LEDnumber==6){
             LEDnumber = 1;
         }
-        context.ui.turnOnLED(LEDnumber);
+        ui.turnOnLED(LEDnumber);
         if(LEDnumber == 1) {
-            context.ui.turnOffLED(5);
+            ui.turnOffLED(5);
         } else {
-            context.ui.turnOffLED(LEDnumber-1);
+            ui.turnOffLED(LEDnumber-1);
         }
     }
 

@@ -1,5 +1,7 @@
 package dk.dtu.philipsclockradio;
 
+import static dk.dtu.philipsclockradio.ContextClockradio.ui;
+
 public class StateSetPlayRadio extends StateAdapter{
 
     private ContextClockradio mContext;
@@ -9,8 +11,8 @@ public class StateSetPlayRadio extends StateAdapter{
 
     @Override
     public void onEnterState(ContextClockradio context) {
-        context.ui.toggleRadioPlaying("ON");
-        context.ui.setDisplayText(context.getMradioFrequency().getModulation() +
+        ui.toggleRadioPlaying("ON");
+        ui.setDisplayText(context.getMradioFrequency().getModulation() +
                 context.getMradioFrequency().getFrequency());
         initiatePresets();
         LEDnumber = 1;
@@ -30,18 +32,18 @@ public class StateSetPlayRadio extends StateAdapter{
     public void onClick_Preset(ContextClockradio context) {
 
         if(LEDnumber != 1){
-            context.ui.turnOffLED(LEDnumber - 1);
+            ui.turnOffLED(LEDnumber - 1);
         } else {
-            context.ui.turnOffLED(5);
-            context.ui.turnOffLED(1);
+            ui.turnOffLED(5);
+            ui.turnOffLED(1);
 
         }
-        context.ui.turnOnLED(LEDnumber);
+        ui.turnOnLED(LEDnumber);
         if(!context.getUserPresets(LEDnumber).getModulation().equals(context.getMradioFrequency().getModulation())){
             context.getMradioFrequency().changeModulation();
         }
         context.getMradioFrequency().setFrequency(context.getUserPresets(LEDnumber).getFrequency());
-        context.ui.setDisplayText(context.getMradioFrequency().getModulation() +
+        ui.setDisplayText(context.getMradioFrequency().getModulation() +
                 context.getMradioFrequency().getFrequency());
         LEDnumber++;
         if(LEDnumber == 6){
@@ -55,7 +57,7 @@ public class StateSetPlayRadio extends StateAdapter{
     @Override
     public void onClick_Power(ContextClockradio context) {
         context.getMradioFrequency().changeModulation();
-        context.ui.setDisplayText(context.getMradioFrequency().getModulation() +
+        ui.setDisplayText(context.getMradioFrequency().getModulation() +
                 context.getMradioFrequency().getFrequency());
         turnOffAllLED(context);
     }
@@ -81,7 +83,7 @@ public class StateSetPlayRadio extends StateAdapter{
             }
         }
         turnOffAllLED(context);
-        context.ui.setDisplayText(context.getMradioFrequency().getModulation() +
+        ui.setDisplayText(context.getMradioFrequency().getModulation() +
                 context.getMradioFrequency().getFrequency());
     }
 
@@ -100,7 +102,7 @@ public class StateSetPlayRadio extends StateAdapter{
                 context.getMradioFrequency().setFrequency(context.getMradioFrequency().getFrequency() + 1);
             }
         }
-        context.ui.setDisplayText(context.getMradioFrequency().getModulation() +
+        ui.setDisplayText(context.getMradioFrequency().getModulation() +
                 context.getMradioFrequency().getFrequency());
         turnOffAllLED(context);
     }
@@ -134,7 +136,7 @@ public class StateSetPlayRadio extends StateAdapter{
             }
         }
         turnOffAllLED(context);
-        context.ui.setDisplayText(context.getMradioFrequency().getModulation() +
+        ui.setDisplayText(context.getMradioFrequency().getModulation() +
                 context.getMradioFrequency().getFrequency());
     }
 
@@ -167,16 +169,16 @@ public class StateSetPlayRadio extends StateAdapter{
             }
         }
         turnOffAllLED(context);
-        context.ui.setDisplayText(context.getMradioFrequency().getModulation() +
+        ui.setDisplayText(context.getMradioFrequency().getModulation() +
                 context.getMradioFrequency().getFrequency());
     }
 
     public void turnOffAllLED(ContextClockradio context) {
-        context.ui.turnOffLED(1);
-        context.ui.turnOffLED(2);
-        context.ui.turnOffLED(3);
-        context.ui.turnOffLED(4);
-        context.ui.turnOffLED(5);
+        ui.turnOffLED(1);
+        ui.turnOffLED(2);
+        ui.turnOffLED(3);
+        ui.turnOffLED(4);
+        ui.turnOffLED(5);
     }
 
 

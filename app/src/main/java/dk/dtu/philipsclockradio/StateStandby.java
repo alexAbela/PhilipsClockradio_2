@@ -3,6 +3,8 @@ package dk.dtu.philipsclockradio;
 import android.os.Handler;
 import java.util.Date;
 
+import static dk.dtu.philipsclockradio.ContextClockradio.ui;
+
 public class StateStandby extends StateAdapter {
 
     private Date mTime;
@@ -42,7 +44,7 @@ public class StateStandby extends StateAdapter {
     public void onEnterState(ContextClockradio context) {
         //Lokal context oprettet for at Runnable kan få adgang
         mContext = context;
-        context.ui.toggleRadioPlaying("OFF");
+        ui.toggleRadioPlaying("OFF");
         context.updateDisplayTime();
         if(!context.isClockRunning){
             startClock();
